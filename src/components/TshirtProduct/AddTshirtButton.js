@@ -4,12 +4,20 @@ import { useContext } from 'react';
 
 const AddTshirtButton = props => {
 
+    console.log("tshirtbutton",props)
     const cartCtx = useContext(TshirtContext)
     const addCartLargeItem = (e) => {
         e.preventDefault();
         let q = 0, l=0;
         q += 1;
-        cartCtx.addLargeProductCart({...props.products,quantity:q})
+        const cartData = {
+            id:props.products.id,
+            name:props.products.name,
+            price:props.products.price,
+          
+        }
+        cartCtx.addLargeProductCart({...cartData,large:1,small:0,medium:0,quantity:q})
+        cartCtx.addCartToDb()
     }
     
     return (

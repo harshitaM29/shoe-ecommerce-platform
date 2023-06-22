@@ -1,37 +1,51 @@
 import classes from './Cart.module.css';
-import { useContext } from 'react';
+import { useContext,useState,useCallback,useEffect } from 'react';
 import Modal from '../UI/Modal/Modal';
 import CartItem from './CartItem';
 import TshirtContext from '../../store/tshirt-context';
 const Cart = props => {
- 
-      const cartItemCtx = useContext(TshirtContext);
-      let totalAmount = 0;
-      const hasCartItems = cartItemCtx.products.length > 0
 
-      const addCartHandler = (item) => {
-        const index = cartItemCtx.cartItems.findIndex(ct => ct.id === item.id);
-       if(index !== -1) {
-        const newQ = Number(item.amount) + 1;
-        cartItemCtx.addProductCart({...item,quantity:newQ})
-       }
-    }
-    const removeCartHandler = (id) => {
-        cartItemCtx.removeProductCart(id)
-    }
+
+  const [items, setItems] = useState([]);
+      const cartItemCtx = useContext(TshirtContext);
+
+      const fetchData = useCallback(async() => {
+      cartItemCtx.receivedItems.forEach((object) => {
+        const index = items.findIndex(item => item.name === object.name);
+      
+        console.log(index);
+        if (index === -1) {
+           const updateCart = items.push({...object})
+           setItems(updateCart)
+        } else {
+           items[index].large =Math.max(items[index].large);
+           const updateCart = [...items]
+          setItems(updateCart)
+           
+        }
+
+      })
+    },[])
+
+    useEffect(() => {
+      fetchData();
+  },[fetchData])
+      let totalAmount = 0;
+      const hasCartItems = cartItemCtx.cartItems.length > 0;
+
+
     
     const cartItems = <ul className={classes['cart-items']}>{
-      cartItemCtx.products.map((item) => 
+     items.map((item) => 
      
-      <CartItem key={item.id} name={item.name} amount={item.amount} quantity={item.quantity} price={item.price} onAdd={addCartHandler.bind(null,item)}
-         onRemove={removeCartHandler.bind(null,item.id)} />
+      <CartItem key={item.id} name={item.name} amount={item.amount} quantity={item.quantity} price={item.price} large={item.large} 
+      small={item.small} medium={item.medium} />
       
       )
       }</ul> 
 
-      cartItemCtx.products.forEach(item => {
-        const sum = Number(item.amount) * Number(item.price)
-        totalAmount = totalAmount + sum ;
+      items.forEach(item => {
+        totalAmount = totalAmount + Number(item.price)
         
     });
       

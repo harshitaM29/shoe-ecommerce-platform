@@ -7,7 +7,7 @@ import TshirtContext from '../../store/tshirt-context';
 const HeaderCart = props => {
     const cartCtx = useContext(TshirtContext);
     let quantity = 0;
-    cartCtx.cartItems.forEach(product => {
+    cartCtx.receivedItems.forEach(product => {
         quantity = quantity + Number(product.quantity);
     })
     return (
@@ -17,7 +17,7 @@ const HeaderCart = props => {
             <CartIcon />
         </span>
         <span>Your Cart</span>
-        <span className={classes.badge}>{quantity}</span>
+        <span className={classes.badge}>{ cartCtx.receivedItems.length}</span>
 
        </button>
        </Fragment>

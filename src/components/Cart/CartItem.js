@@ -10,9 +10,12 @@ const CartItem = props => {
           <h2>{props.name}</h2>
           <div className={classes.summary}>
             <span className={classes.price}>{price}</span>
-            <span className={classes.amount}>xL {props.large}</span>
-            <span className={classes.amount}>xM {props.mediium}</span>
-            <span className={classes.amount}>xS {props.small}</span>
+          
+          </div>
+          <div>
+          <span className={classes.amount}>{props.large} L</span>
+          <span className={classes.amount}>{props.medium} M</span>
+          <span className={classes.amount}>{props.small} s</span>
           </div>
         </div>
       

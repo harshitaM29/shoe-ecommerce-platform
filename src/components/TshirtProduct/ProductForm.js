@@ -54,6 +54,7 @@ const ProductForm = props => {
         quantity:0
     }
     prdCtx.addProduct(prodcutItem);
+    prdCtx.addProductToDb();
     setEnteredId('');
     setEnteredName('');
     setEnteredDes('');
